@@ -5438,20 +5438,16 @@ public class StringUtils {
         if (pos < 0) {
             pos = 0;
         }
-        if (str.length() - pos <= len) {
-            int start = pos;
-            // keep the start off the middle of a surrogate pair so the result is never left holding a lone surrogate
-            if (splitsSurrogatePair(str, start)) {
-                start++;
-            }
-            return str.substring(start);
-        }
         int start = pos;
-        int end = pos + len;
-        // keep both cuts off the middle of a surrogate pair so the result is never left holding a lone surrogate
+        // keep the start off the middle of a surrogate pair so the result is never left holding a lone surrogate
         if (splitsSurrogatePair(str, start)) {
             start++;
         }
+        if (str.length() - pos <= len) {
+            return str.substring(start);
+        }
+        int end = pos + len;
+        // keep the end off the middle of a surrogate pair so the result is never left holding a lone surrogate
         if (splitsSurrogatePair(str, end)) {
             end--;
         }
